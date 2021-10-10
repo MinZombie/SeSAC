@@ -6,7 +6,6 @@
 //
 
 // 할 것
-// 프로필뷰 키보드 done 버튼
 // 다 마셨을 때
 // 리로드 버튼 구현
 // 하루 마다 초기화
@@ -18,6 +17,8 @@ class MainViewController: UIViewController {
     // MARK: - Properties
     var user: User?
     var currentWater = UserDefaults.standard.float(forKey: Constants.UserDefaultsKeys.currentWater)
+    
+    let userNotification = UNUserNotificationCenter.current()
     
         
     @IBOutlet weak var reloadBarButton: UIBarButtonItem!
@@ -39,6 +40,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         setUpView()
+        requestAuthorizationNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -148,10 +150,47 @@ class MainViewController: UIViewController {
         return Int(photoNumber) ?? 0 >= 90 ? 9 : ((Int(photoNumber) ?? 0) / 10) + 1
     }
     
+    private func requestAuthorizationNotification() {
+
+        let authOptions = UNAuthorizationOptions(arrayLiteral: .alert, .badge, .sound)
+        
+        userNotification.requestAuthorization(options: authOptions) { success, error in
+            
+            if success {
+                self.sendNotification()
+                
+            } else {
+                if let error = error {
+                    print(#function, error)
+                }
+            }
+        }
+    }
+    
+    private func sendNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "물 마실 시간입니다 🤩"
+        content.body = "오늘도 화이팅!!"
+        
+        var dateComponents = DateComponents()
+        dateComponents.hour = 6
+        dateComponents.hour = 30
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        // UUID는 매번 같은 값을 리턴. 앱 삭제 후 재설치하면 새로운 값
+        let request = UNNotificationRequest(identifier: "\(Date())", content: content, trigger: trigger)
+        
+        userNotification.add(request) { error in
+            if let error = error {
+                print(#function, error)
+            }
+        }
+    }
+    
+    
     @objc func didTapConfirmButton(_ sender: UIButton) {
         drinkWater()
     }
-    
 }
 
 extension MainViewController: UITextFieldDelegate {
