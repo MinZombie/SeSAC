@@ -7,8 +7,6 @@
 
 // 할 것
 // 다 마셨을 때
-// 리로드 버튼 구현
-// 하루 마다 초기화
 // 네이밍? 리팩토링?
 
 import UIKit
@@ -16,8 +14,12 @@ import UIKit
 class MainViewController: UIViewController {
     // MARK: - Properties
     var user: User?
-    var currentWater = UserDefaults.standard.float(forKey: Constants.UserDefaultsKeys.currentWater)
-    
+    var currentWater = UserDefaults.standard.float(forKey: Constants.UserDefaultsKeys.currentWater) {
+        didSet {
+            waterQuantity.text = "\(String(format: "%.0f", currentWater))ml"
+            goalPercent.text = "\(percent(currentWater: currentWater))"
+        }
+    }
     let userNotification = UNUserNotificationCenter.current()
     
         
@@ -102,6 +104,10 @@ class MainViewController: UIViewController {
         confirmButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .medium)
         confirmButton.backgroundColor = .white
         confirmButton.addTarget(self, action: #selector(didTapConfirmButton(_:)), for: .touchUpInside)
+        
+        
+        reloadBarButton.target = self
+        reloadBarButton.action = #selector(didTapReloadButton(_:))
        
     }
     
@@ -190,6 +196,12 @@ class MainViewController: UIViewController {
     
     @objc func didTapConfirmButton(_ sender: UIButton) {
         drinkWater()
+    }
+    
+    @objc func didTapReloadButton(_ sender: UIButton) {
+        currentWater = 0
+        UserDefaults.standard.set(0.0, forKey: Constants.UserDefaultsKeys.currentWater)
+        
     }
 }
 
