@@ -29,21 +29,23 @@ class ProfileViewController: UIViewController {
         self.view.endEditing(true)
     }
     
-
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpView()
     }
     
+    @objc func didTapSaveBarButton(_ sender: UIBarButtonItem) {
+        save()
+
+    }
+    
+    // MARK: - Private
     private func setUpView() {
         view.backgroundColor = .systemGreen
     
         navigationController?.navigationBar.tintColor = .white
-        
-        nicknameTextField.delegate = self
-        heightTextField.delegate = self
-        weightTextField.delegate = self
         
         saveBarButton.target = self
         saveBarButton.action = #selector(didTapSaveBarButton(_:))
@@ -60,22 +62,32 @@ class ProfileViewController: UIViewController {
         weightLabel.text = Constants.ProfileViewControllerText.weightText
         weightLabel.textColor = .white
         
-        nicknameTextField.textColor = .label
-        nicknameTextField.font = .systemFont(ofSize: 23)
-        nicknameTextField.returnKeyType = .next
         
-        heightTextField.textColor = .label
-        heightTextField.font = .systemFont(ofSize: 23)
-        heightTextField.keyboardType = .numberPad
-        
-        weightTextField.textColor = .label
-        weightTextField.font = .systemFont(ofSize: 23)
-        weightTextField.keyboardType = .numberPad
+        setUpTextField(textField: nicknameTextField, returnType: .next)
+        setUpTextField(textField: heightTextField, keyboard: .numberPad)
+        setUpTextField(textField: weightTextField, keyboard: .numberPad)
     }
                               
-    @objc func didTapSaveBarButton(_ sender: UIBarButtonItem) {
-        save()
+    
+    private func setUpTextField(textField: UITextField, returnType: UIReturnKeyType? = nil, keyboard: UIKeyboardType? = nil) {
         
+        func textFieldUnderline(textField: UITextField) {
+            let layer = CALayer()
+            let position = textField.frame.origin
+            let width = textField.frame.width
+
+            layer.frame = .init(x: position.x, y: position.y + 4, width: width, height: 3)
+            layer.backgroundColor = UIColor.white.cgColor
+            textField.layer.addSublayer(layer)
+        }
+        
+        textField.delegate = self
+        textField.borderStyle = .none
+        textFieldUnderline(textField: textField)
+        textField.textColor = .label
+        textField.font = .systemFont(ofSize: 23)
+        textField.returnKeyType = returnType ?? .default
+        textField.keyboardType = keyboard ?? .default
 
     }
     
@@ -108,8 +120,11 @@ class ProfileViewController: UIViewController {
     }
     
     
+    
+    
 }
 
+// MARK: - TextField delegate
 extension ProfileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         

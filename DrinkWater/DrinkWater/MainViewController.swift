@@ -90,6 +90,7 @@ class MainViewController: UIViewController {
         goalPercent.textColor = .white
         
         textField.borderStyle = .none
+        textField.keyboardType = .numberPad
         textField.font = .boldSystemFont(ofSize: 19)
         textField.placeholder = Constants.HasInfo.textFieldPlaceholder
         textField.textAlignment = .center
@@ -193,7 +194,6 @@ class MainViewController: UIViewController {
         }
     }
     
-    
     @objc func didTapConfirmButton(_ sender: UIButton) {
         drinkWater()
     }
@@ -205,6 +205,7 @@ class MainViewController: UIViewController {
     }
 }
 
+// MARK: - TextField delegate
 extension MainViewController: UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         textField.resignFirstResponder()
