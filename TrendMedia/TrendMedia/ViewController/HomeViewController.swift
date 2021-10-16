@@ -28,7 +28,11 @@ class HomeViewController: UIViewController {
     }
     
     @objc func didTapRightButton() {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.modalPresentationStyle = .fullScreen
         
+        self.present(navVC, animated: true, completion: nil)
     }
     
 }
