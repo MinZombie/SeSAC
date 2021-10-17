@@ -14,6 +14,9 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var poster: UIImageView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var date: UILabel!
+    @IBOutlet weak var genre: UILabel!
+    @IBOutlet weak var rate: UILabel!
+    
     @IBOutlet weak var disclosureIcon: UIImageView!
     
 
@@ -38,6 +41,7 @@ class HomeTableViewCell: UITableViewCell {
         contentView.layer.borderWidth = 0.2
         contentView.layer.borderColor = UIColor.black.cgColor
         contentView.layer.cornerRadius = 12
+        
         
     }
 

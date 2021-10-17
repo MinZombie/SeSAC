@@ -55,33 +55,45 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         
-        let item = tvShow[indexPath.row]
+        let item = tvShow[indexPath.section]
         
         cell.poster.image = UIImage(named: "squid_game")
         cell.title.text = item.title
         cell.date.text = item.releaseDate
+        cell.genre.text = "# " + item.genre
+        cell.rate.text = "평점: \(item.rate)"
         cell.disclosureIcon.image = UIImage(systemName: "chevron.right")
-        
-        
-        return cell
 
+
+        return cell
+        
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        return UIScreen.main.bounds.size.height - 50
+        let navigationHeight = self.navigationController?.navigationBar.frame.size.height
+        return UIScreen.main.bounds.size.height - CGFloat(navigationHeight!) - view.layoutMargins.top
         
         
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController")
-       
+        
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    // 스크롤할 때 애니메이션 조금
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        cell.alpha = 0
+        
+        UIView.animate(withDuration: 0.4) {
+            
+            cell.alpha = 1.0
+        }
+    }
 }

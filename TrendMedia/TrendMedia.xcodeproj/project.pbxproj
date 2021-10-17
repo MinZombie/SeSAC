@@ -18,6 +18,8 @@
 		A91451D727193EFA00CA041D /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91451D627193EFA00CA041D /* HomeTableViewCell.swift */; };
 		A9BB0501271AD2D400C9D7E9 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB0500271AD2D400C9D7E9 /* DetailViewController.swift */; };
 		A9BB0503271AD87100C9D7E9 /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB0502271AD87100C9D7E9 /* DetailTableViewCell.swift */; };
+		A9BB0505271AFF9E00C9D7E9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB0504271AFF9E00C9D7E9 /* SearchViewController.swift */; };
+		A9BB0507271B120B00C9D7E9 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB0506271B120B00C9D7E9 /* SearchTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		A91451D627193EFA00CA041D /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		A9BB0500271AD2D400C9D7E9 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		A9BB0502271AD87100C9D7E9 /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
+		A9BB0504271AFF9E00C9D7E9 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		A9BB0506271B120B00C9D7E9 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +84,7 @@
 			children = (
 				A91451BE27193C9200CA041D /* HomeViewController.swift */,
 				A9BB0500271AD2D400C9D7E9 /* DetailViewController.swift */,
+				A9BB0504271AFF9E00C9D7E9 /* SearchViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -91,6 +96,7 @@
 				A91451C527193C9300CA041D /* LaunchScreen.storyboard */,
 				A91451D627193EFA00CA041D /* HomeTableViewCell.swift */,
 				A9BB0502271AD87100C9D7E9 /* DetailTableViewCell.swift */,
+				A9BB0506271B120B00C9D7E9 /* SearchTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -188,11 +194,13 @@
 				A91451D727193EFA00CA041D /* HomeTableViewCell.swift in Sources */,
 				A91451BF27193C9200CA041D /* HomeViewController.swift in Sources */,
 				A9BB0503271AD87100C9D7E9 /* DetailTableViewCell.swift in Sources */,
+				A9BB0505271AFF9E00C9D7E9 /* SearchViewController.swift in Sources */,
 				A91451BB27193C9200CA041D /* AppDelegate.swift in Sources */,
 				A91451D527193D8300CA041D /* TvShow.swift in Sources */,
 				A91451BD27193C9200CA041D /* SceneDelegate.swift in Sources */,
 				A91451D327193D6000CA041D /* Data.swift in Sources */,
 				A9BB0501271AD2D400C9D7E9 /* DetailViewController.swift in Sources */,
+				A9BB0507271B120B00C9D7E9 /* SearchTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +349,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = J2BXCFFMKP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TrendMedia/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -370,6 +379,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = J2BXCFFMKP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TrendMedia/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
