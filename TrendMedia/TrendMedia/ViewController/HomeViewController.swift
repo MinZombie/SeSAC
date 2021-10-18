@@ -11,6 +11,8 @@ class HomeViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    var tvShow: [TvShow] = dummydata
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,6 +23,13 @@ class HomeViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(didTapRightButton))
         
     }
+    
+    // MARK: - Private
+//    private func getImageName(name: String) -> String {
+//        let pattern = " -':&"
+//        let range = pattern.startIndex..<pattern.index(before: pattern.endIndex)
+//        return name.replacingCharacters(in: range, with: "-")
+//    }
     
     // MARK: - @objc
     @objc func didTapLeftBarButton() {
@@ -80,8 +89,10 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController")
+        let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         
+        // DetailViewController 데이터 넘겨주는 부분
+        vc.tvShow = tvShow[indexPath.section]
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
