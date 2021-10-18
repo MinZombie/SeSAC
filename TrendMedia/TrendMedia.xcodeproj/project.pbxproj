@@ -18,6 +18,7 @@
 		A91451D727193EFA00CA041D /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91451D627193EFA00CA041D /* HomeTableViewCell.swift */; };
 		A99C7F75271D75B300A431FD /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A99C7F74271D75B300A431FD /* Kingfisher */; };
 		A99C7F77271D7CCA00A431FD /* DetailTableHeaderFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A99C7F76271D7CCA00A431FD /* DetailTableHeaderFooterView.xib */; };
+		A99C7F79271DAC7300A431FD /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99C7F78271DAC7300A431FD /* WebViewController.swift */; };
 		A9AA1503271D7102001CCC51 /* DetailTableHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AA1502271D7102001CCC51 /* DetailTableHeaderFooterView.swift */; };
 		A9BB0501271AD2D400C9D7E9 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB0500271AD2D400C9D7E9 /* DetailViewController.swift */; };
 		A9BB0503271AD87100C9D7E9 /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB0502271AD87100C9D7E9 /* DetailTableViewCell.swift */; };
@@ -38,6 +39,7 @@
 		A91451D427193D8300CA041D /* TvShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvShow.swift; sourceTree = "<group>"; };
 		A91451D627193EFA00CA041D /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		A99C7F76271D7CCA00A431FD /* DetailTableHeaderFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailTableHeaderFooterView.xib; sourceTree = "<group>"; };
+		A99C7F78271DAC7300A431FD /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		A9AA1502271D7102001CCC51 /* DetailTableHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableHeaderFooterView.swift; sourceTree = "<group>"; };
 		A9BB0500271AD2D400C9D7E9 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		A9BB0502271AD87100C9D7E9 /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				A91451BE27193C9200CA041D /* HomeViewController.swift */,
 				A9BB0500271AD2D400C9D7E9 /* DetailViewController.swift */,
 				A9BB0504271AFF9E00C9D7E9 /* SearchViewController.swift */,
+				A99C7F78271DAC7300A431FD /* WebViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				A9BB0505271AFF9E00C9D7E9 /* SearchViewController.swift in Sources */,
 				A91451BB27193C9200CA041D /* AppDelegate.swift in Sources */,
 				A91451D527193D8300CA041D /* TvShow.swift in Sources */,
+				A99C7F79271DAC7300A431FD /* WebViewController.swift in Sources */,
 				A91451BD27193C9200CA041D /* SceneDelegate.swift in Sources */,
 				A91451D327193D6000CA041D /* Data.swift in Sources */,
 				A9BB0501271AD2D400C9D7E9 /* DetailViewController.swift in Sources */,

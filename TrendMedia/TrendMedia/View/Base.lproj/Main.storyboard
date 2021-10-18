@@ -88,17 +88,29 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OqC-UJ-rOX">
+                                                    <rect key="frame" x="368" y="45.5" width="30" height="30"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="Ob5-1u-5Ig"/>
+                                                        <constraint firstAttribute="height" constant="30" id="YdW-Je-GkP"/>
+                                                    </constraints>
+                                                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="cT8-x6-3xc" firstAttribute="top" secondItem="9Ik-2N-3Yr" secondAttribute="bottom" constant="8" id="2yK-R3-98H"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="cT8-x6-3xc" secondAttribute="bottom" constant="8" id="9MA-eF-m6j"/>
                                                 <constraint firstItem="9Ik-2N-3Yr" firstAttribute="leading" secondItem="6dt-ca-piH" secondAttribute="leading" id="atr-36-n9i"/>
+                                                <constraint firstItem="OqC-UJ-rOX" firstAttribute="top" secondItem="9Ik-2N-3Yr" secondAttribute="top" constant="16" id="cp1-hp-kCH"/>
                                                 <constraint firstItem="cT8-x6-3xc" firstAttribute="leading" secondItem="6dt-ca-piH" secondAttribute="leadingMargin" constant="8" id="elA-Iu-vdU"/>
                                                 <constraint firstItem="cgs-zy-ryc" firstAttribute="leading" secondItem="6dt-ca-piH" secondAttribute="leading" constant="8" id="kvc-H8-nuJ"/>
                                                 <constraint firstItem="cgs-zy-ryc" firstAttribute="top" secondItem="6dt-ca-piH" secondAttribute="top" constant="8" id="nSe-hj-Ktt"/>
                                                 <constraint firstItem="9Ik-2N-3Yr" firstAttribute="top" secondItem="cgs-zy-ryc" secondAttribute="bottom" constant="8" id="rMb-ws-CMA"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="cT8-x6-3xc" secondAttribute="trailing" constant="8" id="rMm-K5-vN2"/>
                                                 <constraint firstAttribute="trailing" secondItem="9Ik-2N-3Yr" secondAttribute="trailing" id="sNz-ws-sO8"/>
+                                                <constraint firstItem="OqC-UJ-rOX" firstAttribute="trailing" secondItem="9Ik-2N-3Yr" secondAttribute="trailingMargin" constant="-8" id="yiC-C0-hzS"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -109,6 +121,7 @@
                                             <outlet property="poster" destination="9Ik-2N-3Yr" id="abz-xg-bl5"/>
                                             <outlet property="rate" destination="nER-4B-3jS" id="4Li-Cr-reZ"/>
                                             <outlet property="title" destination="vft-3e-6vQ" id="QmZ-jb-f7M"/>
+                                            <outlet property="webViewButton" destination="OqC-UJ-rOX" id="v9n-W5-Vqa"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -227,6 +240,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R2R-mQ-419" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1895.6521739130437" y="-151.33928571428569"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="JHH-jr-XDa">
+            <objects>
+                <viewController storyboardIdentifier="WebViewController" id="KzY-on-r9Q" customClass="WebViewController" customModule="TrendMedia" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Xrm-f1-GtX">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="DJ8-mv-1uV"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fu3-6M-2bK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1896" y="1198"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="veh-Rn-2Br">

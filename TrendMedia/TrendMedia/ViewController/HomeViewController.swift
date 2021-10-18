@@ -44,6 +44,16 @@ class HomeViewController: UIViewController {
         self.present(navVC, animated: true, completion: nil)
     }
     
+    @objc func didTapWebViewButton() {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
+        let navVC = UINavigationController(rootViewController: vc)
+        
+        // 셀 외부에 있는 컨텐츠는 값 전달을 어떻게 할까?
+        vc.tvShowTitle = "babo"
+        
+        self.present(navVC, animated: true)
+    }
+    
 }
 
 // MARK: - TableViewDataSource, Delegate
@@ -72,7 +82,8 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         cell.genre.text = "# " + item.genre
         cell.rate.text = "평점: \(item.rate)"
         cell.disclosureIcon.image = UIImage(systemName: "chevron.right")
-
+        cell.webViewButton.setImage(UIImage(systemName: "paperclip"), for: .normal)
+        cell.webViewButton.addTarget(self, action: #selector(didTapWebViewButton), for: .touchUpInside)
 
         return cell
         
@@ -82,8 +93,6 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let navigationHeight = self.navigationController?.navigationBar.frame.size.height
         return UIScreen.main.bounds.size.height - CGFloat(navigationHeight!) - view.layoutMargins.top
-        
-        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

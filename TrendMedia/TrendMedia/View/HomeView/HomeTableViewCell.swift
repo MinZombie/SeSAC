@@ -12,11 +12,11 @@ class HomeTableViewCell: UITableViewCell {
     static let identifier = "HomeTableViewCell"
     
     @IBOutlet weak var poster: UIImageView!
+    @IBOutlet weak var webViewButton: UIButton!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var genre: UILabel!
     @IBOutlet weak var rate: UILabel!
-    
     @IBOutlet weak var disclosureIcon: UIImageView!
     
 
@@ -24,7 +24,7 @@ class HomeTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         disclosureIcon.tintColor = .black
-        
+        webViewButton.layer.cornerRadius = webViewButton.frame.width / 2
         
     }
 
