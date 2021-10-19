@@ -8,11 +8,16 @@
 import UIKit
 import Kingfisher
 
+fileprivate enum Section: Int {
+    case zero, one
+}
+
 class DetailViewController: UIViewController {
     
     // MARK: - Properties
     var tvShow: TvShow?
     var actors: [String] = []
+    var isExpanded: Bool = false
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -22,9 +27,12 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.title = "출연/제작"
+        
+        //tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UINib(nibName: DetailTableHeaderFooterView.identifier, bundle: nil), forHeaderFooterViewReuseIdentifier: DetailTableHeaderFooterView.identifier)
+        tableView.register(UINib(nibName: OverviewTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: OverviewTableViewCell.identifier)
         
         getActors(data: tvShow?.starring ?? "")
     }
@@ -33,45 +41,93 @@ class DetailViewController: UIViewController {
     func getActors(data: String) {
         self.actors = data.components(separatedBy: ", ")
     }
+    
+    @objc func didTapExpandButton(_ sender: UIButton) {
+        isExpanded = !isExpanded
+        tableView.reloadRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
+        
+    }
 
 }
 
 // MARK: - UITableViewDataSource, Delegate
 extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return actors.count
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 1
+        } else {
+            return actors.count
+        }
+        
+            }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: DetailTableViewCell.identifier, for: indexPath)
         
-        cell.textLabel?.text = actors[indexPath.row]
-        cell.imageView?.image = UIImage(named: "squid_game")
+        if indexPath.section == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: OverviewTableViewCell.identifier, for: indexPath) as? OverviewTableViewCell else {
+                
+                return UITableViewCell()
+            }
+            
+            cell.overviewLabel.text = tvShow?.overview
+            cell.overviewLabel.numberOfLines = isExpanded ? 0 : 1
+            cell.expandButton.setImage(
+                isExpanded ? UIImage(systemName: "chevron.up") : UIImage(systemName: "chevron.down")
+                , for: .normal)
+            cell.expandButton.addTarget(self, action: #selector(didTapExpandButton(_:)), for: .touchUpInside)
+            cell.expandButton.tag = indexPath.row
+            
+            return cell
+            
+        } else {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: DetailTableViewCell.identifier, for: indexPath)
+            
+            cell.textLabel?.text = actors[indexPath.row]
+            cell.imageView?.image = UIImage(named: "squid_game")
+            
+            return cell
+        }
         
-        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     
     // MARK: - Table header view
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: DetailTableHeaderFooterView.identifier) as? DetailTableHeaderFooterView else {
-            return UITableViewHeaderFooterView()
+        if section == 0 {
+            guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: DetailTableHeaderFooterView.identifier) as? DetailTableHeaderFooterView else {
+                return UITableViewHeaderFooterView()
+            }
+            
+            let url = URL(string: tvShow?.backdropImage ?? "")
+            
+            header.backgroundImage.kf.setImage(with: url)
+            header.poster.image = UIImage(named: "squid_game")
+            header.titleLabel.text = tvShow?.title
+            
+            
+            
+            return header
+        } else {
+            return nil
         }
-        
-        let url = URL(string: tvShow?.backdropImage ?? "")
-        
-        header.backgroundImage.kf.setImage(with: url)
-        header.poster.image = UIImage(named: "squid_game")
-        header.titleLabel.text = tvShow?.title
-        
-        
-        
-        return header
+       
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 200
+        if section == 0 {
+            return 200
+        } else {
+            return 0
+        }
     }
-    
     
 }
