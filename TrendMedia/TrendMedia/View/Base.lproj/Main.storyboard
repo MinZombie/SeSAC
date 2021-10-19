@@ -19,9 +19,14 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="MH5-9T-yce">
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="pWH-wB-qD7">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="83"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HomeTableViewCell" rowHeight="730" id="2go-Vv-jRG" customClass="HomeTableViewCell" customModule="TrendMedia" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="730"/>
+                                        <rect key="frame" x="0.0" y="127.5" width="414" height="730"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2go-Vv-jRG" id="6dt-ca-piH">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="730"/>
@@ -130,10 +135,10 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="MH5-9T-yce" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Cdg-8T-5dr"/>
                             <constraint firstAttribute="bottom" secondItem="MH5-9T-yce" secondAttribute="bottom" id="RbN-3o-ZVO"/>
                             <constraint firstItem="MH5-9T-yce" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="quF-Iv-qbI"/>
                             <constraint firstItem="MH5-9T-yce" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="rLk-M0-cWx"/>
-                            <constraint firstItem="MH5-9T-yce" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="ydo-KM-PSE"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="Ljg-L8-uxK"/>
@@ -248,9 +253,57 @@
                     <view key="view" contentMode="scaleToFill" id="Xrm-f1-GtX">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="oFK-I9-aGd">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="uzw-hl-DIC"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Idd-XP-uI7">
+                                <rect key="frame" x="0.0" y="88" width="414" height="730"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ddB-XC-RBI">
+                                <rect key="frame" x="0.0" y="818" width="414" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="cDx-22-Abh"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem image="xmark" catalog="system" id="RWC-Fb-9bS"/>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="Bgh-uj-RbE"/>
+                                    <barButtonItem image="arrow.backward" catalog="system" id="z4y-iG-xrs"/>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="sQN-gT-xKu"/>
+                                    <barButtonItem image="arrow.clockwise" catalog="system" id="QWK-Id-XWI"/>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="Arr-Xc-VZL"/>
+                                    <barButtonItem image="arrow.forward" catalog="system" id="eeb-DP-bxW"/>
+                                </items>
+                            </toolbar>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="DJ8-mv-1uV"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ddB-XC-RBI" firstAttribute="leading" secondItem="DJ8-mv-1uV" secondAttribute="leading" id="8MK-aL-Lha"/>
+                            <constraint firstItem="oFK-I9-aGd" firstAttribute="top" secondItem="DJ8-mv-1uV" secondAttribute="top" id="Ae5-aJ-yXF"/>
+                            <constraint firstItem="ddB-XC-RBI" firstAttribute="bottom" secondItem="DJ8-mv-1uV" secondAttribute="bottom" id="VVU-J8-dlU"/>
+                            <constraint firstItem="Idd-XP-uI7" firstAttribute="top" secondItem="oFK-I9-aGd" secondAttribute="bottom" id="bbr-E2-4P5"/>
+                            <constraint firstItem="DJ8-mv-1uV" firstAttribute="trailing" secondItem="Idd-XP-uI7" secondAttribute="trailing" id="ckx-03-H2h"/>
+                            <constraint firstItem="Idd-XP-uI7" firstAttribute="leading" secondItem="DJ8-mv-1uV" secondAttribute="leading" id="jHk-LU-FC5"/>
+                            <constraint firstItem="ddB-XC-RBI" firstAttribute="trailing" secondItem="DJ8-mv-1uV" secondAttribute="trailing" id="jox-xB-3ZN"/>
+                            <constraint firstItem="oFK-I9-aGd" firstAttribute="trailing" secondItem="DJ8-mv-1uV" secondAttribute="trailing" id="qcL-bl-0fA"/>
+                            <constraint firstItem="oFK-I9-aGd" firstAttribute="leading" secondItem="DJ8-mv-1uV" secondAttribute="leading" id="tDC-KN-kND"/>
+                            <constraint firstItem="ddB-XC-RBI" firstAttribute="top" secondItem="Idd-XP-uI7" secondAttribute="bottom" id="wNG-NZ-870"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="searchBar" destination="oFK-I9-aGd" id="E1t-uJ-612"/>
+                        <outlet property="webView" destination="Idd-XP-uI7" id="9Pt-BG-3Yq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fu3-6M-2bK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -326,9 +379,16 @@
     </scenes>
     <resources>
         <image name="a_tale_dark_grimm" width="182" height="276"/>
+        <image name="arrow.backward" catalog="system" width="128" height="98"/>
+        <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
+        <image name="arrow.forward" catalog="system" width="128" height="98"/>
         <image name="paw_pastrol" width="350" height="525"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
