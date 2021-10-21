@@ -13,7 +13,9 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         
         locationManager.delegate = self
-
+        
+        
+        setUpAnnotations()
     }
     
     // MARK: - Private
@@ -21,9 +23,10 @@ class MapViewController: UIViewController {
         let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
+        annotation.title = "YOOOOU"
         mapView.addAnnotation(annotation)
         
-        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
         let region = MKCoordinateRegion(center: coordinate, span: span)
         mapView.setRegion(region, animated: true)
         
@@ -77,6 +80,20 @@ class MapViewController: UIViewController {
         }
         
     }
+    
+    private func setUpAnnotations() {
+        var annotations: [MKAnnotation] = []
+        
+        for theater in theaters {
+            let annotation = MKPointAnnotation()
+            annotation.title = theater.name
+            annotation.coordinate = CLLocationCoordinate2D(latitude: theater.latitude, longitude: theater.longitude)
+            annotations.append(annotation)
+        }
+        
+        mapView.addAnnotations(annotations)
+    }
+    
 }
 
 // MARK: - Location manager delegate
@@ -84,15 +101,7 @@ extension MapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let coordinate = locations.last?.coordinate {
             
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            mapView.addAnnotation(annotation)
-            
-            let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-            let region = MKCoordinateRegion(center: coordinate, span: span)
-            mapView.setRegion(region, animated: true)
-            
-            locationManager.stopUpdatingLocation()
+            showUserLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         }
     }
     

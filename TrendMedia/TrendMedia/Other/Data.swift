@@ -52,3 +52,17 @@ let dummydata: [TvShow] = [
     
     
 ]
+
+let theaters: [Theater] = [
+    Theater(name: "CGV 용산", latitude: 37.532887865601744, longitude: 126.96897656699143),
+    Theater(name: "롯데시네마 용산", latitude: 37.53574277883562, longitude: 126.96030337094717),
+    Theater(name: "CGV 여의도", latitude: 37.528215953663185, longitude: 126.9254469415617),
+    Theater(name: "롯데시네마 영등포", latitude: 37.51783287946814, longitude: 126.90728232343125),
+    Theater(name: "메가박스 센트럴", latitude: 37.50653964616499, longitude: 127.00497851283559),
+    Theater(name: "메가박스 신촌", latitude: 37.5619509639858, longitude: 126.9423023980251),
+    Theater(name: "CGV 왕십리", latitude: 37.56415618362815, longitude: 127.04016223302544),
+    Theater(name: "롯데시네마 에비뉴엘", latitude: 37.567139611219474, longitude: 126.97470414967248),
+    Theater(name: "메가박스 코엑스", latitude: 37.51523688512977, longitude: 127.05816320607218),
+]
+
+
