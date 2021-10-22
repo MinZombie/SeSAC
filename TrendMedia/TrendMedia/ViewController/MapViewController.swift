@@ -5,8 +5,13 @@ import CoreLocation
 class MapViewController: UIViewController {
     // MARK: - Properties
     @IBOutlet weak var mapView: MKMapView!
+    
     let locationManager = CLLocationManager()
+    
     let deniedCoordinate: [CGFloat] = [37.56641611792444, 126.97797575596404]
+    
+    var annotations: [MKAnnotation] = []
+    
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -14,8 +19,46 @@ class MapViewController: UIViewController {
         
         locationManager.delegate = self
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(didTapFilterBarButton))
         
         setUpAnnotations()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print(#function)
+    }
+    
+    // MARK: - @objc
+    @objc func didTapFilterBarButton() {
+        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let cgvAction = UIAlertAction(title: "CGV", style: .default) { action in
+            self.updateAnnotations(with: action.title!)
+            
+        }
+        let lottecinemaAction = UIAlertAction(title: "롯데시네마", style: .default) { action in
+            self.updateAnnotations(with: action.title!)
+            
+        }
+        let megaboxAction = UIAlertAction(title: "메가박스", style: .default) { action in
+            self.updateAnnotations(with: action.title!)
+            
+        }
+        let allTheatersAction = UIAlertAction(title: "전체보기", style: .default) { action in
+            self.setUpAnnotations()
+            
+        }
+        
+        controller.addAction(cancelAction)
+        controller.addAction(cgvAction)
+        controller.addAction(lottecinemaAction)
+        controller.addAction(megaboxAction)
+        controller.addAction(allTheatersAction)
+
+        
+        self.present(controller, animated: true)
     }
     
     // MARK: - Private
@@ -82,13 +125,29 @@ class MapViewController: UIViewController {
     }
     
     private func setUpAnnotations() {
-        var annotations: [MKAnnotation] = []
         
         for theater in theaters {
             let annotation = MKPointAnnotation()
             annotation.title = theater.name
             annotation.coordinate = CLLocationCoordinate2D(latitude: theater.latitude, longitude: theater.longitude)
             annotations.append(annotation)
+        }
+        
+        mapView.addAnnotations(annotations)
+    }
+    
+    private func updateAnnotations(with theaterName: String) {
+        
+        mapView.removeAnnotations(annotations)
+        self.annotations.removeAll()
+        
+        for theater in theaters {
+            if theater.name.contains(theaterName) {
+                let annotation = MKPointAnnotation()
+                annotation.title = theater.name
+                annotation.coordinate = CLLocationCoordinate2D(latitude: theater.latitude, longitude: theater.longitude)
+                annotations.append(annotation)
+            }
         }
         
         mapView.addAnnotations(annotations)
