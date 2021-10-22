@@ -74,6 +74,8 @@ class MapViewController: UIViewController {
         mapView.setRegion(region, animated: true)
         
         locationManager.stopUpdatingLocation()
+        
+        convertToAddress(location: CLLocation(latitude: latitude, longitude: longitude))
     }
     
     
@@ -151,6 +153,29 @@ class MapViewController: UIViewController {
         }
         
         mapView.addAnnotations(annotations)
+    }
+    
+    private func convertToAddress(location: CLLocation) {
+        let geocoder = CLGeocoder()
+        let location = location
+        let locale = Locale(identifier: "Ko-kr")
+        
+        geocoder.reverseGeocodeLocation(location, preferredLocale: locale) { placemark, error in
+            
+            guard let place = placemark?.first, error == nil else {
+                
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+                return
+            }
+            
+            if let locality = place.locality, let thoroughfare = place.thoroughfare, let subThoroughfare = place.subThoroughfare {
+
+                self.navigationItem.title = locality + " " + thoroughfare + " " + subThoroughfare
+            }
+            
+        }
     }
     
 }
