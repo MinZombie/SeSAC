@@ -16,7 +16,7 @@ class OverviewTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        expandButton.tintColor = .black 
+        expandButton.tintColor = .black
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

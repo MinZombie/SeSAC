@@ -7,23 +7,31 @@
 
 /*
  ----할 것----
- 0. 에셋파일에 있는 이미지 제대로 적용하기 
+ 0. 에셋파일에 있는 이미지 제대로 적용하기 -> 안해도됌
  1. 스토리보드로 구현한 UI 설정들 코드로 설정하기
  2. 상수 따로 작성하기
  3. 중복되는 코드 지우기
+ 4. 주소 표시 -> 구현함
  
  ----모르는 것----
- 1. 홈뷰컨트롤러에서 뷰 2개 겹치는 방법
+ 1. 홈뷰컨트롤러에서 뷰 2개 겹치는 방법 -> 뷰 안에 뷰 2개 -> 해결
  */
 
 import UIKit
 
 class HomeViewController: UIViewController {
     
+    // MARK: - Properties
     @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var categoryViewContainer: UIView!
+    @IBOutlet weak var libraryButton: UIButton!
+    @IBOutlet weak var filmButton: UIButton!
+    @IBOutlet weak var tvButton: UIButton!
     
     var tvShow: [TvShow] = dummydata
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,19 +39,32 @@ class HomeViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: .plain, target: self, action: #selector(didTapLeftBarButton))
+        
+        navigationItem.leftBarButtonItems = [
+            UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: .plain, target: self, action: #selector(didTapLeftBarButton)),
+            UIBarButtonItem(image: UIImage(systemName: "map.fill"), style: .plain, target: self, action: #selector(didTapLeftLocationBarButton))
+        ]
+        
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(didTapRightButton))
         
-        tableView.register(UINib(nibName: CategoryTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: CategoryTableViewCell.identifier)
+        libraryButton.addTarget(self, action: #selector(didTapLibraryButton), for: .touchUpInside)
+        
+        setUpCategoryViewContainer()
         
     }
+
     
     // MARK: - Private
-//    private func getImageName(name: String) -> String {
-//        let pattern = " -':&"
-//        let range = pattern.startIndex..<pattern.index(before: pattern.endIndex)
-//        return name.replacingCharacters(in: range, with: "-")
-//    }
+    private func setUpCategoryViewContainer() {
+        categoryViewContainer.layer.cornerRadius = 12
+        
+        // 그림자 설정
+        categoryViewContainer.layer.shadowColor = UIColor.black.cgColor
+        categoryViewContainer.layer.shadowOffset = CGSize(width: 0, height: 10)
+        categoryViewContainer.layer.shadowRadius = 4.0
+        categoryViewContainer.layer.shadowOpacity = 0.5
+    }
     
     // MARK: - @objc
     @objc func didTapLeftBarButton() {
@@ -62,10 +83,16 @@ class HomeViewController: UIViewController {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
         let navVC = UINavigationController(rootViewController: vc)
         
-        // 셀 외부에 있는 컨텐츠는 값 전달을 어떻게 할까?
-        vc.tvShowTitle = "babo"
+        // 셀 외부에 있는 컨텐츠는 값 전달을 어떻게 할까? -> Tag 활용
         
         self.present(navVC, animated: true)
+    }
+    
+    
+    @objc func didTapLeftLocationBarButton() {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     // Category 버튼
@@ -83,7 +110,7 @@ class HomeViewController: UIViewController {
 // MARK: - TableViewDataSource, Delegate
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return tvShow.count + 1
+        return tvShow.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -93,49 +120,34 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as? CategoryTableViewCell else {
-                
-                return UITableViewCell()
-            }
-            
-            cell.libraryButton.addTarget(self, action: #selector(didTapLibraryButton), for: .touchUpInside)
-            
-            return cell
-            
-        } else {
-            
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.identifier, for: indexPath) as? HomeTableViewCell else {
-                return UITableViewCell()
-            }
-            
-            
-            let item = tvShow[indexPath.section - 1]
-            cell.poster.image = UIImage(named: "squid_game")
-            cell.title.text = item.title
-            cell.date.text = item.releaseDate
-            cell.genre.text = "# " + item.genre
-            cell.rate.text = "평점: \(item.rate)"
-            cell.disclosureIcon.image = UIImage(systemName: "chevron.right")
-            cell.webViewButton.setImage(UIImage(systemName: "paperclip"), for: .normal)
-            cell.webViewButton.addTarget(self, action: #selector(didTapWebViewButton), for: .touchUpInside)
-
-            return cell
+        
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.identifier, for: indexPath) as? HomeTableViewCell else {
+            return UITableViewCell()
         }
+        
+        
+        let item = tvShow[indexPath.section]
+        cell.poster.image = UIImage(named: "squid_game")
+        cell.title.text = item.title
+        cell.date.text = item.releaseDate
+        cell.genre.text = "# " + item.genre
+        cell.rate.text = "평점: \(item.rate)"
+        cell.disclosureIcon.image = UIImage(systemName: "chevron.right")
+        cell.webViewButton.setImage(UIImage(systemName: "paperclip"), for: .normal)
+        cell.webViewButton.addTarget(self, action: #selector(didTapWebViewButton), for: .touchUpInside)
+        
+        return cell
+        
         
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            
-            return 120
-            
-        } else {
-            
-            let navigationHeight = self.navigationController?.navigationBar.frame.size.height
-            return UIScreen.main.bounds.size.height - CGFloat(navigationHeight!) - view.layoutMargins.top
-        }
+        
+        let navigationHeight = self.navigationController?.navigationBar.frame.size.height
+        return (UIScreen.main.bounds.size.height / 1.2) - navigationHeight! - categoryViewContainer.frame.size.height
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
