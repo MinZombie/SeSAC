@@ -13,6 +13,7 @@
 		A9D7F6CC2726978700075EE5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9D7F6CA2726978700075EE5 /* Main.storyboard */; };
 		A9D7F6CE2726978800075EE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9D7F6CD2726978800075EE5 /* Assets.xcassets */; };
 		A9D7F6D12726978800075EE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9D7F6CF2726978800075EE5 /* LaunchScreen.storyboard */; };
+		A9D7F6D92726A9CF00075EE5 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D7F6D82726A9CF00075EE5 /* Model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		A9D7F6CD2726978800075EE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A9D7F6D02726978800075EE5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A9D7F6D22726978800075EE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A9D7F6D82726A9CF00075EE5 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				A9D7F6C42726978700075EE5 /* AppDelegate.swift */,
 				A9D7F6C62726978700075EE5 /* SceneDelegate.swift */,
 				A9D7F6C82726978700075EE5 /* LotteryViewController.swift */,
+				A9D7F6D82726A9CF00075EE5 /* Model.swift */,
 				A9D7F6CA2726978700075EE5 /* Main.storyboard */,
 				A9D7F6CD2726978800075EE5 /* Assets.xcassets */,
 				A9D7F6CF2726978800075EE5 /* LaunchScreen.storyboard */,
@@ -141,6 +144,7 @@
 				A9D7F6C92726978700075EE5 /* LotteryViewController.swift in Sources */,
 				A9D7F6C52726978700075EE5 /* AppDelegate.swift in Sources */,
 				A9D7F6C72726978700075EE5 /* SceneDelegate.swift in Sources */,
+				A9D7F6D92726A9CF00075EE5 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
