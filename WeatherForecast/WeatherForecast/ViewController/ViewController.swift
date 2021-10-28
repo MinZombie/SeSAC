@@ -20,6 +20,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet weak var message: UILabel!
     
+
+    
     let location = CLLocationManager()
     
     // MARK: - Lifecycle
@@ -30,6 +32,8 @@ class ViewController: UIViewController {
 
         setUpCurrentDateLabel()
         setUpButtons()
+        
+        
     }
     
     // MARK: - Private
@@ -87,6 +91,25 @@ extension ViewController: CLLocationManagerDelegate {
                     self.currentLocationLabel.text = locality + " " + thoroughfare + " " + subThoroughfare
                 }
             }
+            
+            // API 데이터 받아오기
+            APIManager.shared.fetchData(
+                latitude: coordinate.latitude,
+                longitude: coordinate.longitude,
+                model: WeatherResult.self,
+                completion: { response in
+                    
+                switch response {
+                case .success(let result):
+                    
+                    self.temperatureLabel.text = "\(result.main.temp)"
+                    self.humidityLabel.text = "\(result.main.humidity)"
+                    self.windLabel.text = "\(result.wind.speed)"
+                    
+                case .failure(let error):
+                    print(error)
+                }
+            })
         }
     }
     

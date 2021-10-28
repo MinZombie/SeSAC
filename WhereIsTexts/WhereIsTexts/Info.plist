@@ -4,8 +4,6 @@
 <dict>
 	<key>API_KEY</key>
 	<string>$(API_KEY)</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>정확한 날씨 정보를 위해 사용자의 위치 정보가 필요합니다.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
