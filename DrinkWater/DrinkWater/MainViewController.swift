@@ -127,6 +127,7 @@ class MainViewController: UIViewController {
         guard let water = textField.text else {
             return
         }
+
         currentWater += Float(water) ?? 0
         UserDefaults.standard.set(currentWater, forKey: Constants.UserDefaultsKeys.currentWater)
         
@@ -181,7 +182,7 @@ class MainViewController: UIViewController {
         
         var dateComponents = DateComponents()
         dateComponents.hour = 6
-        dateComponents.hour = 30
+        dateComponents.minute = 30
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         // UUID는 매번 같은 값을 리턴. 앱 삭제 후 재설치하면 새로운 값
