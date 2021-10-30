@@ -17,21 +17,39 @@ final class APIManager {
             (Bundle.main.infoDictionary?["API_KEY"] as? String) ?? ""
         }
         
-        static let baseUrl = "api.openweathermap.org/data/2.5/"
+        static let baseUrl = "https://api.openweathermap.org/"
     }
+    
+    
+    public func fetchWeather(lat: String, lon: String, completion: @escaping (Result<WeatherResult, Error>) -> ()) {
+        guard let url = url(endpoint: .weather, queryParameters: ["lat": lat, "lon": lon]) else { return }
+        
+        fetch(url: url, model: WeatherResult.self, completion: completion)
+    }
+
     
     // MARK: - Private
     private enum Endpoint: String {
-        case weather
+        case weather = "data/2.5/weather"
+        case iconImage = "img/wn/"
     }
     
-    
-    
-    func fetchData<T: Codable>(latitude: Double, longitude: Double, model: T.Type, completion: @escaping (Result<T, Error>) -> ()) {
+    private func url(endpoint: Endpoint, queryParameters: [String: String] = [:]) -> URL? {
+        var urlString = Constants.baseUrl + endpoint.rawValue
+        var queryItems = [URLQueryItem]()
         
-        let urlString = Constants.baseUrl + Endpoint.weather.rawValue + "?lat=\(latitude)&long=\(longitude)&appid=\(Constants.apiKey)"
+        for (name, value) in queryParameters {
+            queryItems.append(.init(name: name, value: value))
+        }
         
-        guard let url = URL(string: urlString) else { return }
+        queryItems.append(.init(name: "appid", value: Constants.apiKey))
+        
+        urlString += "?" + queryItems.map { "\($0.name)=\($0.value ?? "")" }.joined(separator: "&")
+        
+        return URL(string: urlString)
+    }
+    
+    private func fetch<T: Codable>(url: URL, model: T.Type, completion: @escaping (Result<T, Error>) -> ()) {
         
         let dataTask = URLSession.shared.dataTask(with: url) { data, _, error in
             
@@ -51,9 +69,9 @@ final class APIManager {
                 print(error)
                 
             }
-
+            
         }
         dataTask.resume()
     }
-
+    
 }

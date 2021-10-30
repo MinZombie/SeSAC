@@ -20,7 +20,7 @@ struct Weather: Codable {
 }
 
 struct Main: Codable {
-    let temp: String
+    let temp: Double
     let humidity: Int
 }
 

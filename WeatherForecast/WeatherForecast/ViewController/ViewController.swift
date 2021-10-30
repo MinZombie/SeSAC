@@ -37,6 +37,12 @@ class ViewController: UIViewController {
     }
     
     // MARK: - Private
+    private func convertToCelsius(with kelvin: Double) -> Int {
+        let celsius = round(kelvin - 273.15)
+        
+        return Int(celsius)
+    }
+    
     private func setUpCurrentDateLabel() {
         let date = Date()
         let dateFormatter = DateFormatter()
@@ -93,18 +99,27 @@ extension ViewController: CLLocationManagerDelegate {
             }
             
             // API 데이터 받아오기
-            APIManager.shared.fetchData(
-                latitude: coordinate.latitude,
-                longitude: coordinate.longitude,
-                model: WeatherResult.self,
+            APIManager.shared.fetchWeather(
+                lat: "\(coordinate.latitude)",
+                lon: "\(coordinate.longitude)",
                 completion: { response in
                     
                 switch response {
                 case .success(let result):
+                    let iconBaseURL = "http://openweathermap.org/img/wn/"
                     
-                    self.temperatureLabel.text = "\(result.main.temp)"
-                    self.humidityLabel.text = "\(result.main.humidity)"
-                    self.windLabel.text = "\(result.wind.speed)"
+                    DispatchQueue.global().async {
+                        
+                        guard let imageURL = URL(string: iconBaseURL + "\(result.weather.first?.icon ?? "01d")@4x.png") else { return }
+                        guard let imageData = try? Data(contentsOf: imageURL) else { return }
+                    
+                        DispatchQueue.main.async {
+                            self.temperatureLabel.text = "온도는 \(self.convertToCelsius(with: result.main.temp))°C 입니다"
+                            self.humidityLabel.text = "\(result.main.humidity)% 만큼 습해요~"
+                            self.windLabel.text = "\(result.wind.speed)m/s의 바람이 불어요"
+                            self.weatherImageView.image = UIImage(data: imageData)
+                        }
+                    }
                     
                 case .failure(let error):
                     print(error)

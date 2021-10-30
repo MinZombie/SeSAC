@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A9054194272DA57600F69F62 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = A9054193272DA57600F69F62 /* Debug.xcconfig */; };
 		A934040C272955130057C407 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A934040B272955130057C407 /* APIManager.swift */; };
 		A9340411272960BF0057C407 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9340410272960BF0057C407 /* Weather.swift */; };
 		A9D7F6E72726C90C00075EE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D7F6E62726C90C00075EE5 /* AppDelegate.swift */; };
@@ -18,8 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A9054193272DA57600F69F62 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		A934040B272955130057C407 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
-		A934040E272955B10057C407 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		A9340410272960BF0057C407 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		A9D7F6E32726C90C00075EE5 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9D7F6E62726C90C00075EE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,7 +70,7 @@
 		A9D7F6DA2726C90C00075EE5 = {
 			isa = PBXGroup;
 			children = (
-				A934040E272955B10057C407 /* Debug.xcconfig */,
+				A9054193272DA57600F69F62 /* Debug.xcconfig */,
 				A9D7F6E52726C90C00075EE5 /* WeatherForecast */,
 				A9D7F6E42726C90C00075EE5 /* Products */,
 			);
@@ -157,6 +158,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9054194272DA57600F69F62 /* Debug.xcconfig in Resources */,
 				A9D7F6F32726C90E00075EE5 /* LaunchScreen.storyboard in Resources */,
 				A9D7F6F02726C90E00075EE5 /* Assets.xcassets in Resources */,
 				A9D7F6EE2726C90C00075EE5 /* Main.storyboard in Resources */,
@@ -318,7 +320,7 @@
 		};
 		A9D7F6F82726C90E00075EE5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A934040E272955B10057C407 /* Debug.xcconfig */;
+			baseConfigurationReference = A9054193272DA57600F69F62 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
