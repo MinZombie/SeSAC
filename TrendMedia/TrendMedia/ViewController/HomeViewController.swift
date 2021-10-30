@@ -18,6 +18,7 @@
  */
 
 import UIKit
+import Kingfisher
 
 class HomeViewController: UIViewController {
     
@@ -29,7 +30,11 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var filmButton: UIButton!
     @IBOutlet weak var tvButton: UIButton!
     
-    var tvShow: [TvShow] = dummydata
+    var trending: [Trending] = []
+    var genres: [Genre] = []
+    
+    var startPage = 1
+    var totalResults = 0
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -39,6 +44,7 @@ class HomeViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.prefetchDataSource = self
         
         navigationItem.leftBarButtonItems = [
             UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: .plain, target: self, action: #selector(didTapLeftBarButton)),
@@ -52,8 +58,11 @@ class HomeViewController: UIViewController {
         
         setUpCategoryViewContainer()
         
+        // API 데이터 받아오기
+        fetchData()
     }
-
+    
+    
     
     // MARK: - Private
     private func setUpCategoryViewContainer() {
@@ -64,6 +73,30 @@ class HomeViewController: UIViewController {
         categoryViewContainer.layer.shadowOffset = CGSize(width: 0, height: 10)
         categoryViewContainer.layer.shadowRadius = 4.0
         categoryViewContainer.layer.shadowOpacity = 0.5
+    }
+    
+    private func fetchData() {
+        let dispatchGroup = DispatchGroup()
+        
+        DispatchQueue.global().async(group: dispatchGroup) {
+            dispatchGroup.enter()
+            APIManager.shared.getDailyMovieTrend(startPage: self.startPage) { response in
+                self.trending.append(contentsOf: response.results)
+                self.totalResults = response.totalResults
+            }
+            
+        }
+        
+        DispatchQueue.global().async(group: dispatchGroup) {
+            APIManager.shared.getGenre { response in
+                self.genres = response.genres
+                dispatchGroup.leave()
+            }
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            self.tableView.reloadData()
+        }
     }
     
     // MARK: - @objc
@@ -100,7 +133,7 @@ class HomeViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Category", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "LibraryViewController") as! LibraryViewController
         
-        vc.tvShow = tvShow
+        //vc.tvShow = tvShow
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -109,37 +142,43 @@ class HomeViewController: UIViewController {
 
 // MARK: - TableViewDataSource, Delegate
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return tvShow.count
-    }
+    //    func numberOfSections(in tableView: UITableView) -> Int {
+    //        return trending.count
+    //    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return trending.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        
-        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.identifier, for: indexPath) as? HomeTableViewCell else {
             return UITableViewCell()
         }
+
+        let item = trending[indexPath.row]
+        var cellGenres: [String] = []
+
+        for movieGenreId in item.genre {
+            
+            for genre in self.genres {
+                if genre.id == movieGenreId {
+                    cellGenres.append(genre.name)
+                }
+            }
+        }
         
-        
-        let item = tvShow[indexPath.section]
-        cell.poster.image = UIImage(named: "squid_game")
+        cell.poster.kf.setImage(with: URL(string: APIManager.Constants.imageBaseUrl + "\(item.posterPath ?? "")"), placeholder: nil)
         cell.title.text = item.title
         cell.date.text = item.releaseDate
-        cell.genre.text = "# " + item.genre
-        cell.rate.text = "평점: \(item.rate)"
+        cell.genre.text = "#" + cellGenres.joined(separator: ", ")
+        cell.rate.text = "인기점수: \(item.popularity)"
         cell.disclosureIcon.image = UIImage(systemName: "chevron.right")
         cell.webViewButton.setImage(UIImage(systemName: "paperclip"), for: .normal)
-        cell.webViewButton.addTarget(self, action: #selector(didTapWebViewButton), for: .touchUpInside)
+        cell.webViewButton.addTarget(self, action: #selector(self.didTapWebViewButton), for: .touchUpInside)
         
         return cell
-        
-        
     }
     
     
@@ -156,19 +195,27 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         
         // DetailViewController 데이터 넘겨주는 부분
-        vc.tvShow = tvShow[indexPath.section]
+        //vc.tvShow = tvShow?[indexPath.section]
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    // 스크롤할 때 애니메이션 조금
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+}
+
+// MARK: - UITableViewDataSourcePrefetching
+extension HomeViewController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         
-        cell.alpha = 0
-        
-        UIView.animate(withDuration: 0.4) {
+        for indexPath in indexPaths {
             
-            cell.alpha = 1.0
+            if trending.count - 1 == indexPath.row && trending.count < totalResults {
+                self.startPage += 1
+
+                fetchData()
+            }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+        
     }
 }
