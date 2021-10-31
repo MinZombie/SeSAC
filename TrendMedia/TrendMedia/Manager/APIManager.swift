@@ -25,15 +25,12 @@ final class APIManager {
     
     // MARK: - Public
     public func getDailyMovieTrend(startPage: Int, completion: @escaping (TrendingResponse) -> Void) {
-        guard let url = url(endpoint: .dailyMovieTrend, queryParameters: ["page" : "\(startPage)"]) else { return }
         
-        fetchData(url: url, model: TrendingResponse.self, completion: completion)
+        fetchData(url: url(endpoint: .dailyMovieTrend, queryParameters: ["page" : "\(startPage)"]), model: TrendingResponse.self, completion: completion)
     }
     
     public func getGenre(completion: @escaping (Genres) -> Void) {
-        guard let url = url(endpoint: .movieGenreList) else { return }
-        
-        fetchData(url: url, model: Genres.self, completion: completion)
+        fetchData(url: url(endpoint: .movieGenreList), model: Genres.self, completion: completion)
     }
     
     
@@ -69,7 +66,12 @@ final class APIManager {
         return URL(string: urlString)
     }
     
-    private func fetchData<T: Codable>(url: URL, model: T.Type, completion: @escaping (T) -> Void) {
+    private func fetchData<T: Codable>(url: URL?, model: T.Type, completion: @escaping (T) -> Void) {
+        
+        guard let url = url else {
+            // 유효하지 않은 url
+            return
+        }
         
         AF.request(url, method: .get).validate().responseJSON { response in
             switch response.result {
