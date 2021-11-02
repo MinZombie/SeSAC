@@ -6,11 +6,17 @@
 //
 
 import Foundation
+import RealmSwift
 
-struct ShoppingList: Codable {
-    var item: String
-    var isChecking: Bool = false
-    var isFavorite: Bool = false
+class ShoppingList: Object {
+    @Persisted var item: String
+    @Persisted var isChecking: Bool = false
+    @Persisted var isFavorite: Bool = false
     
-
+    @Persisted(primaryKey: true) var _id: UUID
+    
+    convenience init(item: String) {
+        self.init()
+        self.item = item
+    }
 }

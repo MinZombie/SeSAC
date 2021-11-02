@@ -5,11 +5,8 @@
 //  Created by 민선기 on 2021/10/13.
 //
 
-// 할 것
-
-// 셀 안에 button 클릭 했을 때 Bool 값 한번만 바뀜 = 메서드 안에 변수를 저장하고 그 변수를 토글해서 변수의 값만 바뀐 것. 
-
 import UIKit
+import RealmSwift
 
 class ShoppingListViewController: UIViewController {
     
@@ -20,17 +17,22 @@ class ShoppingListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    var list: Results<ShoppingList>!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.backgroundColor = UIColor(named: "background")
+
         setUpView()
-        Manager.shared.request()
+        
+        list = Manager.shared.read()
     }
     
     private func setUpView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.backgroundColor = UIColor(named: "background")
+        
         viewContainer.backgroundColor = UIColor(named: "background")
         
         titleLabel.text = "쇼핑"
@@ -48,17 +50,19 @@ class ShoppingListViewController: UIViewController {
     }
     
     @objc func didTapAddButton() {
-        Manager.shared.save(textField: textField, tableView: tableView)
+        guard let text = textField.text else { return }
+        Manager.shared.save(item: text)
         
         textField.text = ""
-
+        tableView.reloadData()
     }
+    
 }
 
 extension ShoppingListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Manager.shared.list.count
+        return list.count
     }
     
     
@@ -67,23 +71,35 @@ extension ShoppingListViewController: UITableViewDataSource, UITableViewDelegate
             return UITableViewCell()
         }
         
-        let list = Manager.shared.list[indexPath.row]
+        let indexPathrow = indexPath.row
+        let list = list[indexPathrow]
+        
+        // 셀 델리게이트에 관한 설정
+        cell.index = indexPath
+        cell.delegate = self
         
         cell.backgroundColor = UIColor(named: "cell_background")
-        cell.delegate = self
-        cell.index = indexPath.row
         
         cell.label.text = list.item
-
+        
+        // 체크 상태값 이미지, 색상 변화
         if list.isChecking {
             cell.leftButton.tintColor = UIColor.red
-            cell.leftButton.setImage(UIImage(systemName: "checkmark.square.fill"), for: .highlighted)
+            cell.leftButton.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
         } else {
             cell.leftButton.tintColor = UIColor(named: "check")
-            cell.leftButton.setImage(UIImage(systemName: "checkmark.square"), for: .highlighted)
+            cell.leftButton.setImage(UIImage(systemName: "checkmark.square"), for: .normal)
         }
         
-        
+        // 좋아요 상태값 이미지, 색상 변화
+        if list.isFavorite {
+            cell.rightButton.tintColor = UIColor.red
+            cell.rightButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        } else {
+            cell.rightButton.tintColor = UIColor(named: "star")
+            cell.rightButton.setImage(UIImage(systemName: "star"), for: .normal)
+        }
+
         return cell
     }
     
@@ -99,7 +115,9 @@ extension ShoppingListViewController: UITableViewDataSource, UITableViewDelegate
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            Manager.shared.delete(indexPath: indexPath, tableView: tableView)
+            Manager.shared.delete(item: list[indexPath.row])
+            tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: indexPath.section)], with: .automatic)
+            
         }
     }
     
@@ -109,10 +127,13 @@ extension ShoppingListViewController: UITableViewDataSource, UITableViewDelegate
 
 }
 
-extension ShoppingListViewController: TableViewCellDelegate {
-    func didTapLeftButton(index: Int) {
-        print(Manager.shared.list[index].isChecking)
-        Manager.shared.list[index].isChecking.toggle()
-        Manager.shared.update(tableView: tableView)
+extension ShoppingListViewController: ShoppingListTableViewCellDelegate {
+    func checkButtonTapped(index: IndexPath) {
+        Manager.shared.updateCheckButton(index: index, tableView: tableView)
     }
+    
+    func likeButtonTapped(index: IndexPath) {
+        Manager.shared.updateFavoriteButton(index: index, tableView: tableView)
+    }
+
 }
