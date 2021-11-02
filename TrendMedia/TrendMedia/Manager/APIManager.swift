@@ -14,7 +14,7 @@ final class APIManager {
     
     private init() {}
     
-    struct Constants {
+    private struct Constants {
         static var apiKey: String {
             (Bundle.main.infoDictionary?["API_KEY"] as? String) ?? ""
         }
@@ -33,16 +33,20 @@ final class APIManager {
         fetchData(url: url(endpoint: .movieGenreList), model: Genres.self, completion: completion)
     }
     
+    public func getCast(movieId: Int, completion: @escaping (CastResponse) -> Void) {
+        fetchData(url: url(endpoint: .credits, movieId: movieId), model: CastResponse.self, completion: completion)
+    }
+    
     
     
     // MARK: - Private
     private enum Endpoint: String {
         case dailyMovieTrend = "trending/movie/day"
         case movieGenreList = "genre/movie/list"
-        case credit
+        case credits
     }
     
-    private func url(endpoint: Endpoint, movieId: String? = nil, queryParameters: [String: String] = [:]) -> URL? {
+    private func url(endpoint: Endpoint, movieId: Int? = nil, queryParameters: [String: String] = [:]) -> URL? {
         var urlString = Constants.baseUrl
         var queryItems = [URLQueryItem]()
         
@@ -50,8 +54,8 @@ final class APIManager {
         case .dailyMovieTrend, .movieGenreList:
             urlString += endpoint.rawValue
             
-        case .credit:
-            urlString += endpoint.rawValue
+        case .credits:
+            urlString += "movie" + "/" + "\(movieId ?? 0)" + "/" + endpoint.rawValue
             
         }
         
@@ -62,7 +66,7 @@ final class APIManager {
         queryItems.append(.init(name: "api_key", value: Constants.apiKey))
         
         urlString += "?" + queryItems.map { "\($0.name)=\($0.value ?? "")" }.joined(separator: "&")
-
+        print(urlString)
         return URL(string: urlString)
     }
     

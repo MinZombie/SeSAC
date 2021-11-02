@@ -169,7 +169,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
         
-        cell.poster.kf.setImage(with: URL(string: APIManager.Constants.imageBaseUrl + "\(item.posterPath ?? "")"), placeholder: nil)
+        cell.poster.kf.setImage(with: URL(string: Constants.imageBaseUrl + "\(item.posterPath ?? "")"), placeholder: nil)
         cell.title.text = item.title
         cell.date.text = item.releaseDate
         cell.genre.text = "#" + cellGenres.joined(separator: ", ")
@@ -195,7 +195,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         
         // DetailViewController 데이터 넘겨주는 부분
-        //vc.tvShow = tvShow?[indexPath.section]
+        vc.movie = trending[indexPath.row]
         
         self.navigationController?.pushViewController(vc, animated: true)
     }

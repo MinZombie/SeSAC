@@ -15,8 +15,8 @@ fileprivate enum Section: Int {
 class DetailViewController: UIViewController {
     
     // MARK: - Properties
-    var tvShow: TvShow?
-    var actors: [String] = []
+    var movie: Trending?
+    var casts: [Cast] = []
     var isExpanded: Bool = false
     
     @IBOutlet weak var tableView: UITableView!
@@ -34,13 +34,17 @@ class DetailViewController: UIViewController {
         tableView.register(UINib(nibName: DetailTableHeaderFooterView.identifier, bundle: nil), forHeaderFooterViewReuseIdentifier: DetailTableHeaderFooterView.identifier)
         tableView.register(UINib(nibName: OverviewTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: OverviewTableViewCell.identifier)
         
-        getActors(data: tvShow?.starring ?? "")
+        APIManager.shared.getCast(movieId: movie?.id ?? 0) { response in
+            self.casts = response.cast
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                print(self.casts.count)
+            }
+        }
+        
     }
     
-    // 배우들 데이터가 배열에 담겨있지 않고 문자열 하나에 다 담겨 있어서, 배열로 바로 바꾸는 함수
-    func getActors(data: String) {
-        self.actors = data.components(separatedBy: ", ")
-    }
     
     @objc func didTapExpandButton(_ sender: UIButton) {
         isExpanded = !isExpanded
@@ -60,10 +64,10 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         if section == 0 {
             return 1
         } else {
-            return actors.count
+            return casts.count
         }
         
-            }
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -73,7 +77,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
                 return UITableViewCell()
             }
             
-            cell.overviewLabel.text = tvShow?.overview
+            cell.overviewLabel.text = movie?.overview
             cell.overviewLabel.numberOfLines = isExpanded ? 0 : 1
             cell.expandButton.setImage(
                 isExpanded ? UIImage(systemName: "chevron.up") : UIImage(systemName: "chevron.down")
@@ -87,8 +91,20 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: DetailTableViewCell.identifier, for: indexPath)
             
-            cell.textLabel?.text = actors[indexPath.row]
-            cell.imageView?.image = UIImage(named: "squid_game")
+            let cast = casts[indexPath.row]
+            
+            DispatchQueue.global().async {
+                guard let imageUrl = URL(string: Constants.imageBaseUrl + "\(cast.profilePath ?? "")") else { return }
+                guard let imageData = try? Data(contentsOf: imageUrl) else { return }
+                
+                DispatchQueue.main.async {
+                    cell.textLabel?.text = cast.name
+                    cell.detailTextLabel?.text = cast.character
+                    cell.imageView?.image = UIImage(data: imageData)
+                }
+            }
+            
+            cell.contentView.setNeedsDisplay()
             
             return cell
         }
@@ -107,11 +123,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
                 return UITableViewHeaderFooterView()
             }
             
-            let url = URL(string: tvShow?.backdropImage ?? "")
+            let backdropImageUrl = URL(string: Constants.imageBaseUrl + "\(movie?.backdropPath ?? "")")
             
-            header.backgroundImage.kf.setImage(with: url)
-            header.poster.image = UIImage(named: "squid_game")
-            header.titleLabel.text = tvShow?.title
+            header.backgroundImage.kf.setImage(with: backdropImageUrl)
+            //header.poster.image = UIImage(named: "squid_game")
+            header.titleLabel.text = movie?.title
             
             
             
@@ -124,7 +140,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
-            return 200
+            return 280
         } else {
             return 0
         }
