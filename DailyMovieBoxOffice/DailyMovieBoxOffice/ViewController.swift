@@ -6,46 +6,74 @@
 //
 
 import UIKit
+
 import Alamofire
 import SwiftyJSON
+import RealmSwift
+
 
 class ViewController: UIViewController {
     
     @IBOutlet weak var movieTableView: UITableView!
     
-    var baseUrl = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?"
+    let realm = try! Realm()
     
-    var titles: [String] = []
-
+    var dateList: Results<DateList>!
+    var currentMovies = List<Movie>()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         movieTableView.dataSource = self
         movieTableView.delegate = self
         
-        request()
-    }
-
-    private func request() {
-        let url = baseUrl + "key=\(API_KEY)&targetDt=\(getYesterdayDate())"
+        print("File URL: \(realm.configuration.fileURL!)")
         
-        AF.request(url, method: .get).validate().responseJSON { response in
-            switch response.result {
-            case .success(let result):
-                let json = JSON(result)
-                
-                for item in json["boxOfficeResult"]["dailyBoxOfficeList"].arrayValue {
-                    self.titles.append(item["movieNm"].stringValue)
-                }
-                
-                self.movieTableView.reloadData()
-                
-            case .failure(let error):
-                print(error)
+        checkUserData()
+        
+        
+    }
+    
+    private func requestWhenUserNoData() {
+        Manager.shared.request(date: getYesterdayDate()) { response in
+            let result = response.boxOfficeResult.dailyBoxOfficeList
+            
+            result.forEach {
+                let movie = Movie(movieNm: $0.movieNm, id: self.getYesterdayDate())
+                self.currentMovies.append(movie)
             }
+            
+            try! self.realm.write {
+                self.realm.add(self.currentMovies)
+                self.realm.add(DateList(targetDt: self.getYesterdayDate(), movies: self.currentMovies))
+            }
+            
+            self.movieTableView.reloadData()
         }
     }
     
+    private func checkUserData() {
+        let tasks = realm.objects(DateList.self).sorted(byKeyPath: "targetDt", ascending: false)
+
+        guard let latestDate = tasks.first else {
+            // 데이터 없음
+            requestWhenUserNoData()
+            print("데이터 없다")
+            return
+        }
+        
+        if latestDate.targetDt != getYesterdayDate() {
+            // 최근 데이터 없음
+            requestWhenUserNoData()
+            print("최근 데이터 없음")
+        } else {
+            print("데이터 있음")
+            currentMovies = tasks.first!.movies
+            movieTableView.reloadData()
+        }
+    }
+
     private func getYesterdayDate() -> String {
         let yesterday = Date() - 86400
         
@@ -55,17 +83,19 @@ class ViewController: UIViewController {
         return dateFormatter.string(from: yesterday)
         
     }
+    
+    
 }
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titles.count
+        return currentMovies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        cell.textLabel?.text = titles[indexPath.row]
+        cell.textLabel?.text = currentMovies[indexPath.row].movieNm
         
         return cell
     }
