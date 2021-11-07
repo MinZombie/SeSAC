@@ -17,8 +17,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5b4-ux-VoE">
+                                <rect key="frame" x="0.0" y="44" width="414" height="72"/>
+                                <subviews>
+                                    <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="fn1-Zi-iRd">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="51G-Pr-1us"/>
+                                        </constraints>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </searchBar>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="예시) 20110624" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HG9-s3-4pp">
+                                        <rect key="frame" x="16" y="49" width="390" height="15"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="HG9-s3-4pp" firstAttribute="top" secondItem="fn1-Zi-iRd" secondAttribute="bottom" constant="5" id="1du-yh-Hs9"/>
+                                    <constraint firstAttribute="trailing" secondItem="HG9-s3-4pp" secondAttribute="trailing" constant="8" id="33r-SE-PNn"/>
+                                    <constraint firstAttribute="trailing" secondItem="fn1-Zi-iRd" secondAttribute="trailing" id="5Yb-tv-idE"/>
+                                    <constraint firstItem="fn1-Zi-iRd" firstAttribute="top" secondItem="5b4-ux-VoE" secondAttribute="top" id="CT6-yZ-3hT"/>
+                                    <constraint firstAttribute="height" constant="72" id="CYw-db-9v0"/>
+                                    <constraint firstItem="HG9-s3-4pp" firstAttribute="leading" secondItem="5b4-ux-VoE" secondAttribute="leading" constant="16" id="DaJ-sm-zQa"/>
+                                    <constraint firstAttribute="bottom" secondItem="HG9-s3-4pp" secondAttribute="bottom" constant="8" id="cw1-7T-5s8"/>
+                                    <constraint firstItem="fn1-Zi-iRd" firstAttribute="leading" secondItem="5b4-ux-VoE" secondAttribute="leading" id="dXK-me-fgG"/>
+                                </constraints>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Jos-eI-TIC">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="116" width="414" height="746"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="8Je-Gz-1rt" style="IBUITableViewCellStyleDefault" id="DrF-r3-uN5">
@@ -45,18 +74,22 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Jos-eI-TIC" secondAttribute="bottom" id="2dU-9u-Xab"/>
+                            <constraint firstItem="5b4-ux-VoE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="OUU-Zg-2hg"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Jos-eI-TIC" secondAttribute="trailing" id="Q1u-nF-wal"/>
                             <constraint firstItem="Jos-eI-TIC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Swn-NM-vbo"/>
-                            <constraint firstItem="Jos-eI-TIC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="u53-aF-MT9"/>
+                            <constraint firstItem="Jos-eI-TIC" firstAttribute="top" secondItem="5b4-ux-VoE" secondAttribute="bottom" id="en0-mp-j1s"/>
+                            <constraint firstItem="5b4-ux-VoE" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="grA-v8-dVZ"/>
+                            <constraint firstItem="5b4-ux-VoE" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="q1j-6j-F2o"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="boxOfficeDateSearchbar" destination="fn1-Zi-iRd" id="NMp-oS-pSa"/>
                         <outlet property="movieTableView" destination="Jos-eI-TIC" id="xdh-X2-EyJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="132" y="110"/>
+            <point key="canvasLocation" x="131.8840579710145" y="109.82142857142857"/>
         </scene>
     </scenes>
     <resources>
